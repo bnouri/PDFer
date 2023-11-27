@@ -1,0 +1,472 @@
+\def\fileversion{1230}
+\def\filedate{2022/12/30}
+\def\styfile{_sty/art}
+\def\fileInfo{(Sty file, incl: main controls/preambles)}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{\styfile}[\filedate\space\fileversion] 
+\typeout{-- Package: "\styfile",\space\fileInfo\space\fileversion\space <\filedate> --}
+
+%%/////////////////////////////////////////////////////////////////////////////
+%% This file contains all the essential preambles and formats
+%%/////////////////////////////////////////////////////////////////////////////
+
+\RequirePackage{etex} %Temporary
+\RequirePackage{IEEEtrantools}
+
+\newif\ifLegalSize        % For all \ifis... "False" is the Default
+\newif\ifDefaultMargins   % False/Default: if you want to large margins; otherwise (true) customized margined
+%%%\LegalSizetrue
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Page-Size:    %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifLegalSize  %%legal-wide:: legalpaper with Landscape Oriantation
+	\pdfpagewidth 14in   \pdfpageheight 8.5in
+	\RequirePackage[legalpaper, landscape, left=1cm,top=1cm,right=1cm,bottom=1.5cm]{geometry}
+\else  %%Letterpaper:
+	\pdfpagewidth 8.5in   \pdfpageheight 11.0in
+	\ifDefaultMargins
+		\RequirePackage[letterpaper]{geometry}
+	\else
+		\RequirePackage[letterpaper, left=2cm,top=1.5cm,right=1.5cm,bottom=1in]{geometry}
+	\fi
+\fi
+
+\brokenpenalty=10000
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Typesetting Adjustments:       %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{setspace} 
+%\singlespacing  %\onehalfspacing  %\doublespacing 
+\setstretch{1.25}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%      Bibliography:      %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{IEEEtran}
+\RequirePackage{cite}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Graphics:    %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{ifpdf} 
+\ifpdf 
+    \RequirePackage[pdftex]{graphicx}  	 
+    \RequirePackage{epstopdf}
+    \DeclareGraphicsExtensions{.pdf,.jpeg,.jpg,.png,.gif,.eps,.ps}
+    \pdfminorversion=7
+\else  
+    \RequirePackage[dvips]{graphicx}
+    \DeclareGraphicsExtensions{.eps,.ps}
+\fi
+\graphicspath{{./Figs/}{./img/}} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Subfigure-Packages:    %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{float,rotating,caption} %for image placement
+\RequirePackage[caption=false,font=footnotesize]{subfig}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Table:    %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{tabularx}  %Automatic line-break in tabular
+\RequirePackage{booktabs,longtable,array,mdwtab,multirow}
+%%--Controls:
+%% \renewcommand{\arraystretch}{.65}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%      Math:    %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage[cmex10]{amsmath}
+\interdisplaylinepenalty=2500
+\RequirePackage{amssymb,mathtools,amsthm,cases}
+\RequirePackage{accents} %for \ttdot
+%\RequirePackage{amscd,latexsym,mdwmath,amsfonts,mathrsfs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%      Format-of-Eq#:     %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\def\theequation{\arabic{equation}} % show eq# as (eq)
+%\def\theequation{\arabic{section}.\arabic{equation}}  %show eq# as (sec.eq)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Theorem Environment:      %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% "amsthm" provides: 
+%   *- Theorem environments
+%   *- "begin{proof} ...\qedhere \end{proof}". 
+%
+%   *- "\qed": produces "ends of proof" symbol. 
+%   *- The default end-of-proof character is a 'hollow-square'
+%   *- to change it to a 'black solid-square' this is added:
+%-------------------------------------------------------------------------------
+%Change "ends of proof" symbol: \qed to be a 'black solid-square':
+\def\qedsymbol{$\blacksquare$} 
+%\def\qedsymbol{\rule{0.7em}{0.7em}}
+
+
+%% Plain: Theorem, Lemma, Corollary, Proposition, Conjecture, Criterion, Algorithm
+\theoremstyle{plain} %makes theorem's body italic
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+%% Definitions: definition, Condition, Problem, Example,
+\theoremstyle{definition} %makes theorem's body non-italic
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem*{exampleno}{Example}  %*=no numbering
+
+%%Remarks: Remark, Note, Notation, Claim, Summary, Acknowledgment, Case, Conclusion
+\theoremstyle{remark} %makes theorem's body non-italic
+\newtheorem{remark}{Remark}
+\newtheorem*{remarkno}{Remark}    %*=no numbering
+\newtheorem*{summary}{Summary}    %*=no numbering
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Color:    %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{xcolor}
+%%--Usage:
+%-----------------------------------------------------
+%1% \usepackage{xcolor} or \RequirePackage{xcolor}:
+%-----------------------------------------------------
+%   Predefined Colors in "xcolor" package:
+%   black, blue, brown, cyan, darkgray, gray, green, lightgray, lime, magenta, 
+%   olive, orange, pink, purple, red, teal, violet, white, yellow.
+
+%2% \usepackage[dvipsnames]{xcolor}     %The 68 standard colors known to dvips
+%3% \definecolor{myred}{RGB}{a,b,c}     %N.B.% \definecolor{myred}{rgb}{a/255, b/255, c/255}
+%4% \textcolor{myred}{\rule{1cm}{1cm}}
+%5% {\color{mred}some text}             % between \textcolor and \color, you can use the one you prefer. 
+%6% \pagecolor{declared-color}          %changes the background color of the whole page
+%7% \colorbox{myred}{text}              %colored background for the text
+%8% \colorbox{myred}{\color{blue}text}  % background color and the text color is changed
+%9% \fcolorbox{declared-color-frame}{declared-color-background}{text}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Hyperlink Properties:     %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \RequirePackage{url}  %The url package doesn't create hyperlinks
+% Ex: \url{http://www.wikibooks.org}
+
+\RequirePackage[pdftex,plainpages=true,pagebackref=true,breaklinks]{hyperref}
+%\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,filecolor=black,urlcolor=black}
+%\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,filecolor=magenta,urlcolor=blue}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,filecolor=magenta,urlcolor=blue,urlbordercolor=magenta}
+
+%%--Option#1
+%\hypersetup{allbordercolors=red}
+
+%%--Option#2
+%\hypersetup{
+%	colorlinks=false,           % true =  hyperlink itself will be coloured
+%   linkcolor=blue              % blue =  hyperlink text will be green
+%   linkbordercolor=red,        % colour of boxes surrounding links in hyperref
+%	citebordercolor=green,      % color of boxes surrounding links to bibliography, eg green
+%	filebordercolor=magenta,    % color of box surrounding file links   
+%	urlbordercolor=blue,        % color of box surrounding external links
+%}
+
+%%%--Option#3
+%\hypersetup{
+%	colorlinks=true,      %true: No boxed links
+%	linkcolor=blue,       % color of internal links 
+%	citecolor=blue,       % color of links to bibliography, eg green
+%	filecolor=magenta,    % color of file links   
+%	urlcolor=blue,        % color of external links
+%}
+
+%%--Usage:
+%% Link:---------\href{URL}{prompting text} ......................... e.g. \href{http://www.wikibooks.org}{Wikibooks home}
+%% Email:--------\href{mailto:-email@address-}{email to display} .... e.g. \href{mailto:this@that.com}{this(at)that(dot)com}
+%% Local-File:---\href{run:path to local text}{prompting text} ...... e.g. \href{run:/path/to/my/file.ext}{"text displayed"}
+%% Current-File:-\hyperref[sec:x]{"text displayed"} ................. e.g. \hyperref[sec:x]{"New"} section
+%% To Page: -----\pageref{sec:one}
+%% ..............When \label{sec:one} is label for section in the current LaTeX file.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%    Language-Packages:     %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage[english]{babel}
+\RequirePackage[T1]{fontenc}  
+\RequirePackage[utf8]{inputenc}
+\renewcommand{\rmdefault}{ptm}  %change from CM Roman to Times
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%    Enhanced Fonts/Symbols:     %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage[normalem]{ulem}
+\RequirePackage{textcomp,upgreek,upquote,lmodern,soul,pbsi,pifont,marvosym,fontawesome,fancyvrb}
+
+\RequirePackage{microtype}  %<-Improves spacing between words & letters; Load this package after fonts
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%    Enumerated/Itemized Lists:     %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{enumerate,enumitem}
+\newcommand{\packed}{\setlength\topsep{0pt}\setlength\itemsep{1pt}\setlength\parskip{0pt} \setlength\parsep{0pt}}
+\newenvironment{packed_enumerate}{\begin{enumerate}\packed}{\end{enumerate}}
+\newenvironment{packed_itemize}{\begin{itemize}\packed}{\end{itemize}}
+\newenvironment{packed-center}{\setlength\topsep{0pt}\setlength\parskip{0pt} \begin{center}}{\end{center}}
+
+% \arabic{}=> 1 / (\Alph{}) => (A) /  \alph{}. => a.
+%%\renewcommand{\labelenumi}{\textbf{(\Alph{enumi}){  }}}          %=>(A)
+%%\renewcommand{\labelenumii}{\textbf{(\alph{enumii}){  }}}        %==>(a)
+%%\renewcommand{\labelenumiii}{\textbf{(\roman{enumiii}).{  }}}    %===>(i)
+%%\renewcommand{\labelenumiv}{\textbf{\arabic{enumiv}.{  }}}       %====>(1)
+
+\renewcommand{\labelenumi}{{\small\arabic{enumi}.{ }}}           %=>1. (small)
+\renewcommand{\labelenumii}{{\small\Alph{enumii}.{ }}}           %==>A.
+\renewcommand{\labelenumiii}{{\small\roman{enumiii}.{ }}}        %===>i.
+\renewcommand{\labelenumiv}{{\small\alph{enumiv}.{ }}}           %====>a.
+
+%%--Usage:
+%%  begin{enumerate}[label=\textbf{(\arabic*)}]
+%%  \setlength\itemsep{1em}
+%%  \item first
+%%  \itemm[\S] second
+%%  \end{enumerate}
+%%
+%%--Help:
+%%  For (1):  [label=\textbf{(\arabic*)}]
+%%      (A):  [label=\textbf{(\Alpha*)}]
+%%       1 :  [label=\protect\circled{\arabic*}] %Circle around number
+%% The last one needs the inclusion of following:
+%% \usepackage{tikz}
+%%\newcommand*\circled[1]{\tikz[baseline=(char.base)]{%
+%%            \node[shape=circle,fill=blue!20,draw,inner sep=2pt] (char) {#1};}}
+%%
+%%--OR:
+%% \renewcommand\labelitemi{--}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%      Center-line, Blocks, & Boxes      %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%--Boxing/Framing:
+\RequirePackage[most]{tcolorbox}   %Put a text+math in a colored box (framed)
+
+\newcommand\ara[1]{\begin{packed-center}#1\end{packed-center}}
+\renewcommand\centerline[1]{\begin{packed-center}#1\end{packed-center}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Footnoting:     %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% (1) Adjusting marks for \footnote{}:
+% \renewcommand{\thefootnote}{\arabic{footnote}}	%1,2,...
+% >>\roman{}:i,...  >>\Roman{}:I,...  >>\alph{}:a,...  >>\Alph{}:A,...
+
+%% (2) Footnote without a marker:
+\newcommand\blfootnote[1]{\begingroup \renewcommand\thefootnote{}
+	\footnote{#1}\addtocounter{footnote}{-1}\endgroup}
+
+%% (3) Footnote with nine special symbols as markers
+\long\def\symbolfootnote[#1]#2{\begingroup\def\thefootnote{\fnsymbol{footnote}}%
+	\footnotetext[#1]{#2}\footnotemark[#1]\endgroup}
+
+%% (4) Every-Page with its own footnote (per page) markers:
+% -  \RequirePackage{perpage}
+% -  \MakePerPage{footnote} 
+
+%%--Usage: ===> \blfootnote{}, \footnote{}, \symbolfootnote[1]{footnote}
+%% Some-text\blfootnote{A footnote w.out marker} \&
+%% Some-Other-text\footnote{A standard footnote w. number marker} \&
+%% More-text\symbolfootnote[1]{footnote} \& 
+%% Some-more-text\symbolfootnote[9]{footnote}!
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Enhancements:     %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{siunitx,comment,lipsum}
+\usepackage[pangram]{blindtext}  %\Blindtext[n][m]  %% "n" paragraphs, each "m" pangrams
+%% Pangram: A sentence or verse that contains all the letters of the alphabet.  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Insert Code to LaTeX:      %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{verbatim,fancyvrb}  %Modern verbatim
+%%--Example:
+%1) \verb!...!
+%2  \Verb[fontshape=it]|$Text|
+%3) \begin{verbatim} ...\end{verbatim}
+%4) \verbatiminput{blah.c}
+
+%%--GENERAL: To include any programming language
+\RequirePackage{listings}
+%% Usage:
+%1) \lstinputlisting{src_fn.py}
+%2) \begin{lstlisting} ...\end{lstlisting}
+%3) \lstinputlisting[language=Python, firstline=37, lastline=45]{src_fn.py}
+%4) \lstinline{in-line-code}
+
+%%--C++:
+%% \usepackage{listings,xcolor} <--We already have these!
+\lstset { %
+    language=C++,
+    backgroundcolor=\color{black!5}, % set backgroundcolor
+    basicstyle=\footnotesize,% basic font setting
+}
+%% Usage:
+%1.  \begin{lstlisting} ... code ... \end{lstlisting}
+
+\RequirePackage{relsize}
+%%\newcommand\CC{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{+}}}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\relsize{-3}{\textbf{+}}}}
+\newcommand\Cpp{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{++}}}}
+
+%%--MATLAB: To include m-scripts:
+%%\RequirePackage[numbered,framed,autolinebreaks,useliterate]{_sty/mcode}  
+%%\RequirePackage[numbered,autolinebreaks]{_sty/mcode}
+%%\RequirePackage[autolinebreaks]{_sty/mcode} % For course 2020
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Algorithm:      %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\RequirePackage{algorithm}
+\RequirePackage{algorithmic} %<=IEEE suggested
+%%Or the following two:
+%%\RequirePackage[ruled,vlined]{algorithm2e}
+%%\RequirePackage{algorithmicx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Flowchart:      %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{pst-node, pst-3d}
+\RequirePackage{pst-blur}
+%%\RequirePackage{pstricks}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Tikz:    %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{tikz}   %NOTE:``tikz'' conflicts with ``pst-node''/''pst-blur'' packages
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     circuitz:    %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage[RPvoltages,american,siunitx]{circuitikz}
+\ctikzset{bipoles/thickness=1}
+
+%%--Usage:
+%\begin{circuitikz}[line width=0.5pt, scale=1]\draw
+%(0,0)--(2,0) to[R=1<\kilo\ohm>] (4,0)--(2,0)
+%;\end{circuitikz}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Watermarking:      %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\RequirePackage{draftwatermark}
+%\SetWatermarkLightness{0.9}
+%\SetWatermarkScale{5}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Counters:      %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcounter{cntr} \setcounter{cntr}{0} 
+\newcommand{\cnt}{\arabic{cntr}\@} 
+\newcommand{\cntt}{\stepcounter{cntr}\cnt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Include Figure:      %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Usage Example:
+%%-- \infig{0.75\textwidh}{f.pdf}{caption.}
+\newcommand{\infig}[3]  
+{\stepcounter{figure}
+\begin{center}\packed
+		\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, 
+		keepaspectratio=true, width=#1]{#2}\par
+		{\small Figure~\arabic{figure}: #3}
+\end{center}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Catch File Between Tags:     %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% "catchfilebetweentags" package has CONFLICT with verbatim pack.
+\RequirePackage{catchfilebetweentags}
+
+
+%% Solution for the problem that,``catchfilebetweentags'' package 
+%% swallows ``one space'' at the end of line.
+\RequirePackage{etoolbox}
+\makeatletter
+\patchcmd{\CatchFBT@Fin@l}{\endlinechar\m@ne}{}
+{}{\typeout{Unsuccessful patch!}}
+\makeatother
+
+%%>> Help:
+%%>> In Main:
+%%\ExecuteMetaData[FileA]{mytag}
+
+%%>> In FileA:
+%<*tagID>
+%...LaTeX code...
+%</tagID>
+
+\RequirePackage{import}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Controls on \maketitle margins: %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{titling}
+\setlength{\droptitle}{-4em}
+%%The four following hook switch will be called by \maketitle!
+\renewcommand\maketitlehooka{\vspace*{-\baselineskip}}           %Top-to-Title
+\renewcommand\maketitlehookb{\vspace*{-1.5\baselineskip}}        %Title-to-Author
+\renewcommand\maketitlehookc{\vspace*{-1\baselineskip}}          %Author-to-Date
+\renewcommand\maketitlehookd{\vspace*{-1.5\baselineskip}}        %Date-to-FirstLine
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Header-Footer Controls:     %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{fancyhdr, lastpage}
+\pagestyle{fancy}
+\setlength{\topskip   }{10pt}  %header to the top of paper
+\setlength{\headheight}{30pt}  %height of the header
+\setlength{\headsep   }{10pt}  %header to the first line
+\fancyhf{} % clear the headers (sets both header and footer to nothing)
+\renewcommand{\headrulewidth}{0.25pt}
+%\renewcommand{\footrulewidth}{0.25pt}
+
+\lhead{\ShortTitle}   
+\rhead{\normalfont \thepage}
+
+%%--Usage:
+%%\renewcommand{\headrulewidth}{0.5pt}
+%%\cfoot{}
+%%\fancyhead[L]{}  
+%%\fancyfoot[R]{} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%    Add an EMPTY PAGE:   %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\newenvironment{empty-page}{\clearpage\thispagestyle{empty}
+	\begin{center}\vspace*{\fill}}{\vspace*{\fill}\end{center}\clearpage}
+
+\newcommand{\PPRT}[1]{%%
+	\def\thisTitle{#1}
+	\begin{empty-page} \color{violet} \scalebox{1.5}{\Huge \bfseries Part:~#1}\end{empty-page}
+	\part{\thisTitle}
+}%% 
+
+\newcommand{\BlankPage}[1]{%%
+	\begin{empty-page} 
+            \textcolor[rgb]{0.4,0.4,0.4}{\emph{\large Intentionally left blank.}}
+        \end{empty-page}
+}%% 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%      Hyphenation     %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\hyphenation{ex-em-pli-fies de-termine}
+
+%%%%%%%%%%%%%%%%%%%%
+\endinput      %%%%% <-EoF: LaTeX will ignore anything after this line.
+%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% This file is shared for fair use "without" any (implied/assumed) warranty %%
+%% of merchantability or applicability for a particular purpose.             %%
+%% (C) Behzad NOURI, bn@ieee.org                                        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

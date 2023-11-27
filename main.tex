@@ -1,0 +1,26 @@
+\documentclass[10pt,oneside]{article}
+\usepackage{_sty/art,_sty/pdf}
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% *** The Body of Document ***
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{empty}
+
+%%% TEST:
+%\input{_xuti/test}
+test
+\begin{comment}
+\centerline{%
+\includegraphics[trim=0in 0in 0in 0.1in, clip=true,keepaspectratio=true,width=\textwidth]{_xuti/SampleSinglePage.pdf}
+}
+\includepdf[pages=1]{_xuti/SampleSinglePage.pdf}
+\includepdf[pages=2-last]{_xuti/SampleMultiPage.pdf}
+\end{comment}
+
+
+
+\end{document}
+
+
+
+
